@@ -2,10 +2,6 @@ import requests
 KEY = "e93c3350ce19973913e4baf37a49a213"
 lang = "de-DE"
 
-
-#response = requests.get(eg)
-#print(response.json())
-
 def search_by_name(term, poster=True, date=True, rating=True, overview=True):
     page = 1
     query = f"https://api.themoviedb.org/3/search/" \
@@ -36,5 +32,3 @@ def search_by_name(term, poster=True, date=True, rating=True, overview=True):
     return titles
 
 print(search_by_name("Shrek", poster=False))
-#json = {"results": [{"adult": False, "original_title": "Right"}, {"adult": False, "original_title": "Right T(w)oo"}]}
-#print([x["original_title"] for num, x in enumerate(json["results"])])
