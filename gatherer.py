@@ -1,3 +1,5 @@
+import time
+
 import requests
 KEY = "e93c3350ce19973913e4baf37a49a213"
 lang = "de-DE"
@@ -30,7 +32,7 @@ def search_by_name(term, title=False, poster=False, date=False, rating=False, ov
         f"multi?api_key={KEY}&" \
         f"language={lang}" \
         f"&page={page}" \
-        f"&include_adult=true" \
+        f"&include_adult=True" \
         f"&query={term}"
         response = requests.get(query)
         for x in response.json()["results"]:
@@ -44,6 +46,28 @@ def search_by_name(term, title=False, poster=False, date=False, rating=False, ov
                 pass
     return titles
 
+def load():
+    time.sleep(1)
+    for x in range(10):
+        print("\n" * 100)
+        time.sleep(0.15)
+        print(".")
+        time.sleep(0.15)
+        print("\n" * 100)
+        time.sleep(0.15)
+        print("..")
+        time.sleep(0.15)
+        print("\n" * 100)
+        time.sleep(0.15)
+        print("...")
+        time.sleep(0.15)
+        print("\n" * 100)
 
-print(search_by_name("Shrek", enable_all=True))
 
+print("Welcome To FEA v0.1")
+print("Loading...")
+time.sleep(2)
+term = input("Title: ")
+sus = search_by_name(term, enable_all=True)
+print(len(sus))
+print(sus)
