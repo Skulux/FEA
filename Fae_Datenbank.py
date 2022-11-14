@@ -19,14 +19,19 @@ def createTables():
     Watchlist.createTable(ifNotExists=True)
 
 
-def get_all_movies():
+def get_all_movies_data():
     mv = list(Watchlist.select())
     return [{x.movie_id: [x.rating, x.status, x.progress, x.comment]} for x in mv]
 
 
-def get_movie_by_id(id_: int):
-    mv = list(Watchlist.select(Watchlist.q.movie_id == id_))
-    return [mv.movie_id, mv.rating, mv.status, mv.progress, mv.comment]
+def get_all_movie_ids():
+    mv = list(Watchlist.select())
+    return [[x.movie_id] for x in mv][0]
+
+
+def get_movie_data_by_id(id_: int):
+    movie = list(Watchlist.select(Watchlist.q.movie_id == id_))
+    return [[mv.movie_id, mv.rating, mv.status, mv.progress, mv.comment] for mv in movie][0]
 
 
 def insert_data(movie_id: int, rating: float, status: str, progress: int, comment: str):
@@ -37,5 +42,6 @@ def insert_data(movie_id: int, rating: float, status: str, progress: int, commen
 
 createTables()
 #insert_data(475557, 8.8, "Watching", 0, "")
-print(get_all_movies())
-print(get_movie_by_id(475557))
+print(get_all_movies_data())
+print(get_movie_data_by_id(475557))
+print(get_all_movie_ids())
