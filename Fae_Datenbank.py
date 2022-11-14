@@ -42,6 +42,3 @@ def insert_data(movie_id: int, rating: float, status: str, progress: int, commen
 
 createTables()
 #insert_data(475557, 8.8, "Watching", 0, "")
-print(get_all_movies_data())
-print(get_movie_data_by_id(475557))
-print(get_all_movie_ids())

@@ -140,7 +140,6 @@ def compare_genres(movie_list: list):
         if temp_score > best_score:
             best_score = temp_score
             movies = movie
-            print(best_score)
     return movies
 
 
@@ -157,4 +156,4 @@ def compare_genres(movie_list: list):
 #print(search_by_id(808, enable_all=True))
 #print(get_genre_list([810, 505, 808, 809, 505], return_dict=True))
 #print(get_trending( enable_all=True))
-print(compare_genres([664469, 808, 809, 810, 505]))
+#print(compare_genres([664469, 808, 809, 810, 505]))
