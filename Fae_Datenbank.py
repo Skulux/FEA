@@ -16,29 +16,85 @@ class Watchlist(sqlobject.SQLObject):
 
 
 def createTables():
+    """
+    creates tables
+    :return: None
+    """
     Watchlist.createTable(ifNotExists=True)
+    return None
 
 
 def get_all_movies_data():
+    """
+    Gets all Watchlist Entries attributes
+    :return: dict with id as key and list of attributes as values
+    """
     mv = list(Watchlist.select())
     return [{x.movie_id: [x.rating, x.status, x.progress, x.comment]} for x in mv]
 
 
 def get_all_movie_ids():
+    """
+    Gets all Watchlist Entries IDs
+    :return: list of ids
+    """
     mv = list(Watchlist.select())
     return [[x.movie_id] for x in mv][0]
 
 
-def get_movie_data_by_id(id_: int):
-    movie = list(Watchlist.select(Watchlist.q.movie_id == id_))
+def get_movie_data_by_id(movie_id: int):
+    """
+    Gets all attributes of Watchlist Entry
+    :param movie_id: id
+    :return: list of Entry attributes
+    """
+    movie = list(Watchlist.select(Watchlist.q.movie_id == movie_id))
     return [[mv.movie_id, mv.rating, mv.status, mv.progress, mv.comment] for mv in movie][0]
 
 
 def insert_data(movie_id: int, rating: float, status: str, progress: int, comment: str):
+    """
+    Create new Watchlist Entry
+    :param movie_id: int
+    :param rating: float between 0.0 - 10.0
+    :param status: string (Plan, Watching, Done)
+    :param progress: int
+    :param comment: str
+    :return: Watchlist Object
+    """
     mv = Watchlist(movie_id=movie_id, rating=rating, status=status, progress=progress,
                    comment=comment)
     return mv
 
 
+def update_data(movie_id: int, rating: float = None, status: str = None, progress: int = None, comment: str = None):
+    """
+    Updates Watchlist Entries
+    :param movie_id: int
+    :param rating: float between 0.0 - 10.0
+    :param status: string (Plan, Watching, Done)
+    :param progress: int
+    :param comment: str
+    :return: None
+    """
+    try:
+        mv = list(Watchlist.select(Watchlist.q.movie_id == movie_id))[0]
+        try:
+            if rating and 10.0 >= rating >= 0.0:
+                mv.rating = rating
+            if status:
+                mv.status = status
+            if progress:
+                mv.progress = progress
+            if comment:
+                mv.comment = comment
+        except Exception as ER:
+            print(ER)
+            pass
+    except Exception as ERR:
+        print(ERR)
+        pass
+    return None
+
 createTables()
-#insert_data(475557, 8.8, "Watching", 0, "")
+#update_data(475557, rating=9.8)
