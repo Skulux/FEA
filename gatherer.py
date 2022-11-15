@@ -1,5 +1,5 @@
 import time
-
+import random
 import requests
 KEY = "e93c3350ce19973913e4baf37a49a213"
 lang = "de-DE"
@@ -129,18 +129,17 @@ def compare_genres(movie_list: list):
     trending_genres = {}
     for id_ in list(get_trending("week").keys()):
         trending_genres[id_] = get_genres(id_)
-    best_score = 0
-    movies = None
+    movies = []
     for movie in trending_genres:
         temp_score = 0
         for genre in trending_genres[movie]:
             for genre_ in fav_genres:
                 if genre_ == genre:
                     temp_score += 1
-        if temp_score > best_score:
-            best_score = temp_score
-            movies = movie
-    return movies
+        if temp_score == len(fav_genres) and movie not in movie_list:
+            movies += [movie]
+    print(movies)
+    return random.choice(movies)
 
 
 
