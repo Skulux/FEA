@@ -124,7 +124,7 @@ def get_trending(time_span: str="week", title=False, poster=False, date=False, r
     return titles
 
 
-def compare_genres(movie_list: list):
+def compare_genres(movie_list: list, offset: int = 0):
     fav_genres = get_genre_list(movie_list)
     trending_genres = {}
     for id_ in list(get_trending("week").keys()):
@@ -136,9 +136,10 @@ def compare_genres(movie_list: list):
             for genre_ in fav_genres:
                 if genre_ == genre:
                     temp_score += 1
-        if temp_score == len(fav_genres) and movie not in movie_list:
+        if temp_score == len(fav_genres) - offset and movie not in movie_list:
             movies += [movie]
-    print(movies)
+    if not movies and offset < 3:
+        compare_genres(movie_list, offset + 1)
     return random.choice(movies)
 
 
