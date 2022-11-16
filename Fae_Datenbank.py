@@ -24,13 +24,28 @@ def createTables():
     return None
 
 
-def get_all_movies_data():
+def get_all_movies_data(sort_rating=False, sort_status=False, reverse=False):
     """
     Gets all Watchlist Entries attributes
     :return: dict with id as key and list of attributes as values
     """
     mv = list(Watchlist.select())
-    return [{x.movie_id: [x.rating, x.status, x.progress, x.comment]} for x in mv]
+    p = [{x.movie_id: [x.rating, x.status, x.progress, x.comment]} for x in mv]
+    new = {}
+    newnew = {}
+    for x in p:
+        new.update(x)
+    for y in new:
+        for x in new:
+            if not reverse and new[x][0] < new[y][0]:
+                newnew[x] = new[x]
+            elif new[x][0] > new[y][0]:
+                newnew[x] = new[x]
+    for x in new:
+        if not x in newnew:
+            newnew[x] = new[x]
+    return new
+
 
 
 def get_all_movie_ids():
@@ -98,3 +113,4 @@ def update_data(movie_id: int, rating: float = None, status: str = None, progres
 
 createTables()
 #update_data(475557, rating=9.8)
+print(get_all_movies_data(sort_rating=True, reverse=False))
