@@ -1,4 +1,4 @@
 .idea
 .venv
 *.ini
-test.py
+*test*.*

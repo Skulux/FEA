@@ -144,7 +144,7 @@ def get_trending(time_span: str="week", title=False, poster=False, date=False, r
         rating = True
         overview = True
     titles = {}
-    for page in range(1, 5):
+    for page in range(1, 100):
         query = f"https://api.themoviedb.org/3/trending/all/{time_span}?api_key={KEY}&page={page}"
         response = requests.get(query)
         for x in response.json()["results"]:
@@ -187,15 +187,17 @@ def compare_genres(movie_list: list, offset: int = 0):
 
 
 
-
-#print("Welcome To FEA v0.1")
-#print("Loading...")
-#term = input("Title: ")
-#sus = search_by_name(term, enable_all=True)
-#print(len(sus))
-#print(sus)
-#print(get_genres(808))
-#print(search_by_id(808, enable_all=True))
-#print(get_genre_list([810, 505, 808, 809, 505], return_dict=True))
-#print(get_trending( enable_all=True))
-#print(compare_genres([664469, 808, 809, 810, 505]))
+if __name__ == "__main__":
+    #print("Welcome To FEA v0.1")
+    #print("Loading...")
+    #term = input("Title: ")
+    #sus = search_by_name(term, enable_all=True)
+    #print(len(sus))
+    #print(sus)
+    #print(get_genres(808))
+    #print(search_by_id(808, enable_all=True))
+    #print(get_genre_list([810, 505, 808, 809, 505], return_dict=True))
+    start = time.time()
+    print(get_trending(enable_all=True))
+    print(time.time() - start)
+    #print(compare_genres([664469, 808, 809, 810, 505]))
