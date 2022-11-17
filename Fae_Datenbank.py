@@ -42,7 +42,7 @@ def get_all_movies_data(sort_rating=False, sort_status=False, reverse=False):
             elif new[x][0] > new[y][0]:
                 newnew[x] = new[x]
     for x in new:
-        if not x in newnew:
+        if x not in newnew:
             newnew[x] = new[x]
     return new
 
@@ -110,6 +110,16 @@ def update_data(movie_id: int, rating: float = None, status: str = None, progres
         print(ERR)
         pass
     return None
+
+
+def delete_entry(id_):
+    """
+    Deletes an Entry
+    :param id_: int
+    :return:
+    """
+    Watchlist.delete(id_)
+
 
 createTables()
 #update_data(475557, rating=9.8)
