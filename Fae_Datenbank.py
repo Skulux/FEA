@@ -113,11 +113,14 @@ def delete_entry(id_):
     :param id_: int
     :return:
     """
-    Watchlist.delete(id_)
+    cnvrt_id = [int(x.id) for x in list(Watchlist.select(Watchlist.q.movie_id == id_).limit(1))]
+    Watchlist.delete(cnvrt_id[0])
 
 
 createTables()
-#insert_data(808, 9, 3, "")
+#for x in range(800, 900):
+#    insert_data(x, 9, 3, "")
+#delete_entry(810)
 #insert_data(809, 8, 2, "")
 #insert_data(810, 0, 1, "")
 #update_data(475557, rating=9.8)
