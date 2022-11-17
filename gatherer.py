@@ -111,16 +111,10 @@ def get_genre_list(movie_list: list, return_dict=False):
     ids = []
     for movie_id in movie_list:
         ids += [genre for genre in get_genres(movie_id)]
-    genre_ranking = Counter(ids)
     if return_dict:
-        return genre_ranking
-    if len(genre_ranking) > 2:
-        return list(genre_ranking)[0], list(genre_ranking)[1], list(genre_ranking)[2]
-    elif len(genre_ranking) > 1:
-        return list(genre_ranking)[0], list(genre_ranking)[1]
-    elif genre_ranking:
-        return list(genre_ranking)[0]
-    return None
+        return Counter(ids)
+    genre_ranking = list(Counter(ids))
+    return genre_ranking[0: len(genre_ranking) if len(genre_ranking) <= 3 else 3]
 
 
 def get_trending(time_span: str="week", title=False, poster=False, date=False, rating=False, overview=False,
@@ -171,9 +165,7 @@ def compare_genres(movie_list: list, offset: int = 0):
     for id_ in list(get_trending("week").keys()):
         if len(set(get_genres(id_)) & set(fav_genres)) >= len(fav_genres) - offset:
             movies += [id_]
-    if not movies and offset < 2:
-        compare_genres(movie_list, offset + 1)
-    return choice(movies)
+    return choice(movies) if movies and offset <= 2 else compare_genres(movie_list, offset + 1)
 
 
 s = requests.session()
