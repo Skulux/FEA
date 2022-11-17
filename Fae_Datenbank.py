@@ -55,7 +55,7 @@ def get_all_movie_ids():
     :return: list of ids
     """
     mv = list(Watchlist.select())
-    return [[x.movie_id] for x in mv][0]
+    return [x.movie_id for x in mv]
 
 
 def get_movie_data_by_id(movie_id: int):
