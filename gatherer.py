@@ -114,7 +114,13 @@ def get_genre_list(movie_list: list, return_dict=False):
     genre_ranking = Counter(ids)
     if return_dict:
         return genre_ranking
-    return list(genre_ranking)[0], list(genre_ranking)[1], list(genre_ranking)[2]
+    if len(genre_ranking) > 2:
+        return list(genre_ranking)[0], list(genre_ranking)[1], list(genre_ranking)[2]
+    elif len(genre_ranking) > 1:
+        return list(genre_ranking)[0], list(genre_ranking)[1]
+    elif genre_ranking:
+        return list(genre_ranking)[0]
+    return None
 
 
 def get_trending(time_span: str="week", title=False, poster=False, date=False, rating=False, overview=False,
