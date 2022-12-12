@@ -5,7 +5,7 @@ KEY = "e93c3350ce19973913e4baf37a49a213"
 lang = "de-DE"
 
 
-def search_by_name(term, title=False, poster=False, date=False, rating=False, overview=False, enable_all=False):
+def search_by_name(term: str, title=False, poster=False, date=False, rating=False, overview=False, enable_all=False):
     """
     Gets all Movies and attributes by search term, all attributes are deactivated by default
     :param term: str
@@ -54,7 +54,7 @@ def search_by_name(term, title=False, poster=False, date=False, rating=False, ov
     return titles
 
 
-def search_by_id(movie_id, title=False, poster=False, date=False, rating=False, overview=False, enable_all=False):
+def search_by_id(movie_id: int, title=False, poster=False, date=False, rating=False, overview=False, enable_all=False):
     """
     Gets one Movie and its attributes by id, all attributes are deactivated by default
     :param movie_id: int
