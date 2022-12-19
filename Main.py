@@ -16,7 +16,7 @@ def menu():
     return input("\nSelect: ")
 
 def action(id_, re="", time=""):
-    id_ = int(id_)
+    id_ = int(id_) if id_.isnumeric() else action(menu())
     if id_ == 1:
         data = API.search_by_name(input("Name: "), enable_all=True)
         for i, e in enumerate(data):
@@ -115,10 +115,14 @@ def save(movie_id):
 
 
 def main():
-    print("\n"*20)
-    print("Loading FEA v0.37 CLI Successful")
-    while True:
-        action(menu())
+    try:
+        print("\n"*20)
+        print("Loading FEA v0.37 CLI Successful")
+        while True:
+            action(menu())
+    except Exception as ERR:
+        with open("Last_SetupError.txt", "w+") as f:
+            f.write(str(ERR))
 
 
 if __name__ == "__main__":
