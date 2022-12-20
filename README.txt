@@ -1,4 +1,4 @@
-FEA Movie Database v0.36 by:
+FEA Movie Database v0.42 by:
 Fabian Harjes, Emilis Petrilionis, Alexander Weigend
 
 Requirements:
