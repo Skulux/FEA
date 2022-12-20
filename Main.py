@@ -1,5 +1,6 @@
 import gatherer as API
 import Fae_Datenbank as DB
+import time as t
 
 
 def println(text: str = ""):
@@ -13,6 +14,7 @@ def menu():
     print("[4] Trends (time)")
     print("[5] Vorschlag (list: ids)")
     print("[6] Watchlist ()")
+    print("[7] Time Test (iterations)")
     return input("\nSelect: ")
 
 def action(id_, re="", time=""):
@@ -72,13 +74,18 @@ def action(id_, re="", time=""):
     elif id_ == 5:
         print("-"*20)
         a = input("IDs 'a, b': ").split(", ")
-        data = API.search_by_id(API.compare_genres(a), enable_all=True)
+        b = API.compare_genres(a)
+        data = API.search_by_id(b, enable_all=True)
+        print("ID: "+str(b))
         print("Name: "+str(data[0]))
         print("Poster: "+str(data[1]))
         print("Date: "+str(data[2]))
         print("Rating: "+str(data[3]))
         print("Description: "+str(data[4]))
         print("-"*20)
+        re = input("Save or End: ")
+        if re.lower() == "save":
+            save(b)
 
     elif id_ == 6:
         print("-" * 20)
@@ -99,6 +106,17 @@ def action(id_, re="", time=""):
                 break
             print("-" * 20)
 
+    elif id_ == 7:
+        print("-" * 20)
+        re = int(input("Iterations: "))
+        start = t.time()
+        for x in range(re):
+            API.compare_genres([808, 809, 810])
+            print("Iteration: " + str(x+1))
+        print("Iterations Done in: " + str(round(t.time() - start, 2)))
+        print("Time per Iteration: " + str(round((t.time() - start)/re, 2)))
+
+
 
 
 
@@ -117,7 +135,7 @@ def save(movie_id):
 def main():
     try:
         print("\n"*20)
-        print("Loading FEA v0.37 CLI Successful")
+        print("Loading FEA v0.42 CLI Successful")
         while True:
             action(menu())
     except Exception as ERR:
