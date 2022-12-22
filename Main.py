@@ -17,11 +17,17 @@ def menu():
     print("[7] Time Test (iterations)")
     return input("\nSelect: ")
 
-def action(id_, re="", time=""):
+def action(id_, re="", time="", name=""):
     id_ = int(id_) if id_.isnumeric() else action(menu())
     if id_ == 1:
-        data = API.search_by_name(input("Name: "), enable_all=True)
+        name = input("Name: ") if not name else name
+        data = API.search_by_name(name, enable_all=True)
         for i, e in enumerate(data):
+            if re.isnumeric():
+                if int(re) < i + 1:
+                    action(id_, re=re, time=time, name=name)
+                if int(re) != i + 1:
+                    continue
             print("-"*20)
             print("ID: " + str(e))
             print("Name: "+str(data[e][0]))
@@ -31,7 +37,7 @@ def action(id_, re="", time=""):
             print("Description: "+str(data[e][4]))
             print("["+str(i+1) + "/" + str(len(data))+"]")
             print("-"*20)
-            re = input("Next or End: ")
+            re = input("Next, Page or End: ")
             if re.lower() == "end":
                 break
     elif id_ == 2:
@@ -54,7 +60,7 @@ def action(id_, re="", time=""):
         for i, e in enumerate(data):
             if re.isnumeric():
                 if int(re) < i + 1:
-                    action(4, re=re, time=time)
+                    action(id_, re=re, time=time)
                 if int(re) != i + 1:
                     continue
             print("-"*20)
@@ -93,7 +99,7 @@ def action(id_, re="", time=""):
         for i, e in enumerate(data):
             if re.isnumeric():
                 if int(re) < i + 1:
-                    action(6, re=re)
+                    action(id_, re=re)
                 if int(re) != i + 1:
                     continue
             print("ID: "+str(e))
