@@ -1,6 +1,7 @@
 from random import choice
 import requests
 from collections import Counter
+import multiprocessing
 KEY = "e93c3350ce19973913e4baf37a49a213"
 lang = "de-DE"
 
@@ -153,18 +154,16 @@ def get_trending(time_span: str="week", title=False, poster=False, date=False, r
     return titles
 
 
+def compare_genres_helper(id_, fav_genres, offset):
+    if len(set(get_genres(id_)) & set(fav_genres)) >= len(fav_genres) - offset:
+        return id_
+    return None
+
 def compare_genres(movie_list: list, offset: int = 0):
-    """
-    algorithm to find matching movies based on watched genres
-    :param movie_list: list of movie ids
-    :param offset: int how many fewer genres need to be matched (3-n)
-    :return: int movie id
-    """
     fav_genres = get_genre_list(movie_list)
     movies = []
-    for id_ in list(get_trending("week").keys()):
-        if len(set(get_genres(id_)) & set(fav_genres)) >= len(fav_genres) - offset:
-            movies += [id_]
+    with multiprocessing.Pool() as p:
+        movies = [id_ for id_ in p.starmap(compare_genres_helper, [(id_, fav_genres, offset) for id_ in list(get_trending("week").keys())]) if id_ is not None]
     return choice(movies) if movies and offset <= 2 else compare_genres(movie_list, offset + 1)
 
 
