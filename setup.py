@@ -1,5 +1,4 @@
 import subprocess as sub
-import Main
 try:
     sub.run("pip install -r requirements.txt")
     sub.run("python Main.py")
