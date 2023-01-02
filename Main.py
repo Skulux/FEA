@@ -1,7 +1,10 @@
 import gatherer as API
 import Fae_Datenbank as DB
 import time as t
+import os
+import textwrap
 
+# Determine the correct carriage return character for the current platform
 
 def println(text: str = ""):
     print("\n"+text)
@@ -15,6 +18,7 @@ def menu():
     print("[5] Vorschlag (list: ids)")
     print("[6] Watchlist ()")
     print("[7] Time Test (iterations)")
+    print("[8] Config")
     return input("\nSelect: ")
 
 def action(id_, re="", time=""):
@@ -22,27 +26,38 @@ def action(id_, re="", time=""):
     if id_ == 1:
         data = API.search_by_name(input("Name: "), enable_all=True)
         for i, e in enumerate(data):
-            print("-"*20)
-            print("ID: " + str(e))
-            print("Name: "+str(data[e][0]))
-            print("Poster: "+str(data[e][1]))
-            print("Date: "+str(data[e][2]))
-            print("Rating: "+str(data[e][3]))
-            print("Description: "+str(data[e][4]))
-            print("["+str(i+1) + "/" + str(len(data))+"]")
-            print("-"*20)
+            description = textwrap.shorten(data[e][4], width=70, placeholder="...")
+            string_ = f"""
+            {'-' * 50}
+            ID: {e:>18}
+            Name: {data[e][0]:>18}
+            Poster Link: {data[e][1]:>18}
+            Release: {data[e][2]:>18}
+            Rating: {data[e][3]:>18}
+            Description: {description:>18}
+            [{i + 1}/{len(data)}]
+            {'-' * 50}
+            """
+
+            # Print the formatted string
+            print(string_, end="\r", flush=True)
             re = input("Next or End: ")
             if re.lower() == "end":
                 break
+            os.system("cls")
     elif id_ == 2:
         data = API.search_by_id(int(input("ID: ")), enable_all=True)
-        print("-"*20)
-        print("Name: "+str(data[0]))
-        print("Poster: "+str(data[1]))
-        print("Date: "+str(data[2]))
-        print("Rating: "+str(data[3]))
-        print("Description: "+str(data[4]))
-        print("-"*20)
+        description = textwrap.shorten(data[4], width=70, placeholder="...")
+        string_ = f"""
+        {'-' * 50}
+        Name: {data[0]:>18}
+        Poster Link: {data[1]:>18}
+        Release: {data[2]:>18}
+        Rating: {data[3]:>18}
+        Description: {description:>18}
+        {'-' * 50}
+        """
+        print(string_, end="\r", flush=True)
     elif id_ == 3:
         data = API.get_genres(int(input("ID: ")))
         for num, e in enumerate(data):
@@ -101,17 +116,22 @@ def action(id_, re="", time=""):
             print("Status: "+str(data[e][1]))
             print("Comment: "+str(data[e][2]))
             print("[" + str(i + 1) + "/" + str(len(data)) + "]")
-            re = input("Next, Page or End: ")
+            re = input("Next, Alter, Remove, Page or End: ")
             if re.lower() == "end":
                 break
+            if re.lower() == "alter":
+                alter(e)
+            if re.lower() == "remove":
+                remove(e)
             print("-" * 20)
 
     elif id_ == 7:
         print("-" * 20)
+        db_type = int(input("1 (Load Set from DB), 2(Standard Set)"))
         re = int(input("Iterations: "))
         start = t.time()
         for x in range(re):
-            API.compare_genres([808, 809, 810])
+            API.compare_genres([808, 809, 810] if db_type == 2 else DB.get_all_movie_ids())
             print("Iteration: " + str(x+1))
         print("Iterations Done in: " + str(round(t.time() - start, 2)))
         print("Time per Iteration: " + str(round((t.time() - start)/re, 2)))
@@ -131,6 +151,26 @@ def save(movie_id):
     except:
         print("could not save data.")
 
+def alter(movie_id):
+    try:
+        print("-"*20)
+        rating = int(input("Rating: "))
+        status = int(input("Status (1,2,3): "))
+        comment = input("Comment: ")
+        DB.update_data(movie_id, rating=rating, status=status, comment=comment)
+        print("-"*20)
+    except:
+        print("could not alter data.")
+
+
+def remove(movie_id):
+    try:
+        print("-"*20)
+        DB.delete_entry(movie_id)
+        print("Removed Entry.")
+        print("-"*20)
+    except:
+        print("could not remove Entry.")
 
 def main():
     try:
