@@ -22,11 +22,11 @@ def setup():
         lang = config.get('GENERAL', 'language')
         if theme not in ['dark', 'light']:
             create()
-            return "light", "de"
+            return "light", "de-DE"
         return theme, lang
     except:
         create()
-        return "light", "de"
+        return "light", "de-DE"
 
 
 def read():
@@ -54,5 +54,3 @@ def change(theme=None, language=None):
     except Exception as ERR:
         print(ERR)
 
-
-print(change(language="de"))
