@@ -1,10 +1,7 @@
 import gatherer as API
 import Fae_Datenbank as DB
 import time as t
-import os
-import textwrap
 
-# Determine the correct carriage return character for the current platform
 
 def println(text: str = ""):
     print("\n"+text)
@@ -21,43 +18,38 @@ def menu():
     print("[8] Config")
     return input("\nSelect: ")
 
-def action(id_, re="", time=""):
+def action(id_, re="", time="", name=""):
     id_ = int(id_) if id_.isnumeric() else action(menu())
     if id_ == 1:
-        data = API.search_by_name(input("Name: "), enable_all=True)
+        name = input("Name: ") if not name else name
+        data = API.search_by_name(name, enable_all=True)
         for i, e in enumerate(data):
-            description = textwrap.shorten(data[e][4], width=70, placeholder="...")
-            string_ = f"""
-            {'-' * 50}
-            ID: {e:>18}
-            Name: {data[e][0]:>18}
-            Poster Link: {data[e][1]:>18}
-            Release: {data[e][2]:>18}
-            Rating: {data[e][3]:>18}
-            Description: {description:>18}
-            [{i + 1}/{len(data)}]
-            {'-' * 50}
-            """
-
-            # Print the formatted string
-            print(string_, end="\r", flush=True)
-            re = input("Next or End: ")
+            if re.isnumeric():
+                if int(re) < i + 1:
+                    action(id_, re=re, time=time, name=name)
+                if int(re) != i + 1:
+                    continue
+            print("-"*20)
+            print("ID: " + str(e))
+            print("Name: "+str(data[e][0]))
+            print("Poster: "+str(data[e][1]))
+            print("Date: "+str(data[e][2]))
+            print("Rating: "+str(data[e][3]))
+            print("Description: "+str(data[e][4]))
+            print("["+str(i+1) + "/" + str(len(data))+"]")
+            print("-"*20)
+            re = input("Next, Page or End: ")
             if re.lower() == "end":
                 break
-            os.system("cls")
     elif id_ == 2:
         data = API.search_by_id(int(input("ID: ")), enable_all=True)
-        description = textwrap.shorten(data[4], width=70, placeholder="...")
-        string_ = f"""
-        {'-' * 50}
-        Name: {data[0]:>18}
-        Poster Link: {data[1]:>18}
-        Release: {data[2]:>18}
-        Rating: {data[3]:>18}
-        Description: {description:>18}
-        {'-' * 50}
-        """
-        print(string_, end="\r", flush=True)
+        print("-"*20)
+        print("Name: "+str(data[0]))
+        print("Poster: "+str(data[1]))
+        print("Date: "+str(data[2]))
+        print("Rating: "+str(data[3]))
+        print("Description: "+str(data[4]))
+        print("-"*20)
     elif id_ == 3:
         data = API.get_genres(int(input("ID: ")))
         for num, e in enumerate(data):
@@ -69,7 +61,7 @@ def action(id_, re="", time=""):
         for i, e in enumerate(data):
             if re.isnumeric():
                 if int(re) < i + 1:
-                    action(4, re=re, time=time)
+                    action(id_, re=re, time=time)
                 if int(re) != i + 1:
                     continue
             print("-"*20)
@@ -108,7 +100,7 @@ def action(id_, re="", time=""):
         for i, e in enumerate(data):
             if re.isnumeric():
                 if int(re) < i + 1:
-                    action(6, re=re)
+                    action(id_, re=re)
                 if int(re) != i + 1:
                     continue
             print("ID: "+str(e))
