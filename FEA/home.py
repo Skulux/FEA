@@ -191,6 +191,7 @@ class frame_main ( wx.Frame ):
 			self.m_bpButton5 = wx.BitmapButton(self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(trends[movie][1]), wx.DefaultPosition,
 											   wx.Size(210, 265), wx.BU_AUTODRAW | 0)
 			sizers_movie += [wx.BoxSizer(wx.VERTICAL)]
+			self.m_bpButton5.myname = movie
 			sizers_movie[-1].Add(self.m_bpButton5, 0, wx.ALIGN_CENTER | wx.ALL, 5)
 			self.staticText_movie1 = wx.StaticText(self.m_scrolledWindow1, wx.ID_ANY, u""+short_name(trends[movie][0]), wx.DefaultPosition,
 												   wx.DefaultSize, 0)
@@ -199,6 +200,7 @@ class frame_main ( wx.Frame ):
 				wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous"))
 			self.staticText_movie1.SetForegroundColour(wx.Colour(255, 255, 255))
 			sizers_movie[-1].Add(self.staticText_movie1, 0, wx.ALIGN_CENTER | wx.ALL, 5)
+			self.m_bpButton5.Bind(wx.EVT_BUTTON, self.on_movie)
 		sizer_sizer = []
 		boxsizer_moviesTop = wx.BoxSizer(wx.VERTICAL)
 		for sizer in sizers_movie:
@@ -222,13 +224,15 @@ class frame_main ( wx.Frame ):
 
 	def on_suprise( self, event ):
 		self.m_scrolledWindow1.DestroyChildren()
-		trends = [API.search_by_id(API.compare_genres(DB.get_all_movie_ids()), enable_all=True)]
+		movie_m = API.compare_genres(DB.get_all_movie_ids())
+		trends = [API.search_by_id(movie_m, enable_all=True)]
 		sizers_movie = []
 
 		for movie in trends:
 			self.m_bpButton5 = wx.BitmapButton(self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(movie[1]), wx.DefaultPosition,
 											   wx.Size(210, 265), wx.BU_AUTODRAW | 0)
 			sizers_movie += [wx.BoxSizer(wx.VERTICAL)]
+			self.m_bpButton5.myname = movie_m
 			sizers_movie[-1].Add(self.m_bpButton5, 0, wx.ALIGN_CENTER | wx.ALL, 5)
 			self.staticText_movie1 = wx.StaticText(self.m_scrolledWindow1, wx.ID_ANY, u""+short_name(movie[0]), wx.DefaultPosition,
 												   wx.DefaultSize, 0)
@@ -237,6 +241,7 @@ class frame_main ( wx.Frame ):
 				wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous"))
 			self.staticText_movie1.SetForegroundColour(wx.Colour(255, 255, 255))
 			sizers_movie[-1].Add(self.staticText_movie1, 0, wx.ALIGN_CENTER | wx.ALL, 5)
+			self.m_bpButton5.Bind(wx.EVT_BUTTON, self.on_movie)
 		sizer_sizer = []
 		boxsizer_moviesTop = wx.BoxSizer(wx.HORIZONTAL)
 		for sizer in sizers_movie:
@@ -254,6 +259,7 @@ class frame_main ( wx.Frame ):
 			self.m_bpButton5 = wx.BitmapButton(self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(trends[movie][1]), wx.DefaultPosition,
 											   wx.Size(210, 265), wx.BU_AUTODRAW | 0)
 			sizers_movie += [wx.BoxSizer(wx.VERTICAL)]
+			self.m_bpButton5.myname = movie
 			sizers_movie[-1].Add(self.m_bpButton5, 0, wx.ALIGN_CENTER | wx.ALL, 5)
 			self.staticText_movie1 = wx.StaticText(self.m_scrolledWindow1, wx.ID_ANY, u""+short_name(trends[movie][0]), wx.DefaultPosition,
 												   wx.DefaultSize, 0)
@@ -262,6 +268,7 @@ class frame_main ( wx.Frame ):
 				wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous"))
 			self.staticText_movie1.SetForegroundColour(wx.Colour(255, 255, 255))
 			sizers_movie[-1].Add(self.staticText_movie1, 0, wx.ALIGN_CENTER | wx.ALL, 5)
+			self.m_bpButton5.Bind(wx.EVT_BUTTON, self.on_movie)
 		sizer_sizer = []
 		boxsizer_moviesTop = wx.BoxSizer(wx.VERTICAL)
 		for sizer in sizers_movie:
@@ -283,21 +290,23 @@ class frame_main ( wx.Frame ):
 		self.m_scrolledWindow1.SetSizer(boxsizer_moviesTop)
 		self.m_scrolledWindow1.Layout()
 
-	def on_watchlist( self, event ):
+	def on_watchlist( self, event):
 		self.m_scrolledWindow1.DestroyChildren()
 		movies = []
-
+		movie_ids = []
 		for movie in DB.get_all_movie_ids():
+			movie_ids += [movie]
 			movies += [API.search_by_id(movie, enable_all=True)]
 
 		sizers_movie = []
 
-		for movie in movies:
+		for i, movie in enumerate(movies):
 			try:
-				self.m_bpButton5 = wx.BitmapButton(self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(movie[1]), wx.DefaultPosition,
+				self.bmp_button = wx.BitmapButton(self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(movie[1]), wx.DefaultPosition,
 												   wx.Size(210, 265), wx.BU_AUTODRAW | 0)
+				self.bmp_button.myname = movie_ids[i]
 				sizers_movie += [wx.BoxSizer(wx.VERTICAL)]
-				sizers_movie[-1].Add(self.m_bpButton5, 0, wx.ALIGN_CENTER | wx.ALL, 5)
+				sizers_movie[-1].Add(self.bmp_button, 0, wx.ALIGN_CENTER | wx.ALL, 5)
 				self.staticText_movie1 = wx.StaticText(self.m_scrolledWindow1, wx.ID_ANY, u""+short_name(movie[0]), wx.DefaultPosition,
 													   wx.DefaultSize, 0)
 				self.staticText_movie1.Wrap(-1)
@@ -305,6 +314,7 @@ class frame_main ( wx.Frame ):
 					wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous"))
 				self.staticText_movie1.SetForegroundColour(wx.Colour(255, 255, 255))
 				sizers_movie[-1].Add(self.staticText_movie1, 0, wx.ALIGN_CENTER | wx.ALL, 5)
+				self.bmp_button.Bind(wx.EVT_BUTTON, self.on_movie)
 			except:
 				pass
 		sizer_sizer = []
@@ -334,9 +344,165 @@ class frame_main ( wx.Frame ):
 	def on_settings( self, event ):
 		event.Skip()
 
-	def on_movie( self, event ):
-		event.Skip()
+	def on_movie( self, event):
+		movie_id = event.GetEventObject().myname
+		movie = API.search_by_id(movie_id, enable_all=True)
+		description = movie[4]
 
+		self.m_scrolledWindow1.DestroyChildren()
+
+		boxsizer_movies = wx.BoxSizer( wx.VERTICAL )
+
+
+		boxsizer_movies.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+
+		box_sizer_mall = wx.BoxSizer( wx.VERTICAL )
+
+		boxsizer_movie = wx.BoxSizer( wx.HORIZONTAL )
+
+		boxsizer_left = wx.BoxSizer( wx.VERTICAL )
+
+		self.img = wx.StaticBitmap( self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(movie[1]), wx.DefaultPosition, wx.Size( 210,265 ), 0 )
+		boxsizer_left.Add( self.img, 0, wx.ALL, 5 )
+
+		self.year = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Release: "+str(movie[2]), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.year.Wrap( -1 )
+
+		self.year.SetFont( wx.Font( 9, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
+		self.year.SetForegroundColour( wx.Colour( 255, 255, 255 ) )
+		self.year.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
+
+		boxsizer_left.Add( self.year, 0, wx.ALL, 5 )
+
+		self.rating = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Rating: "+str(movie[3])+u"★", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.rating.Wrap( -1 )
+
+		self.rating.SetFont( wx.Font( 9, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
+		self.rating.SetForegroundColour( wx.Colour( 255, 255, 255 ) )
+		self.rating.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
+
+		boxsizer_left.Add( self.rating, 0, wx.ALL, 5 )
+
+
+		boxsizer_movie.Add( boxsizer_left, 1, 0, 5 )
+
+		bSizer10 = wx.BoxSizer(wx.VERTICAL)
+
+		self.description = wx.TextCtrl(self.m_scrolledWindow1, wx.ID_ANY, u""+description, wx.DefaultPosition,
+									   wx.Size( 800,250 ), wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH)
+		self.description.SetForegroundColour(wx.Colour(255, 255, 255))
+		self.description.SetBackgroundColour(wx.Colour(24, 24, 24))
+
+		bSizer10.Add(self.description, 0, wx.ALL, 5)
+
+
+		boxsizer_movie.Add( bSizer10, 10, wx.EXPAND, 5 )
+
+
+		box_sizer_mall.Add( boxsizer_movie, 1, wx.EXPAND, 5 )
+
+		watchlist = wx.BoxSizer( wx.VERTICAL )
+
+		entry_box_status = wx.BoxSizer( wx.HORIZONTAL )
+
+
+		data = []
+		try:
+			a = 0
+			if a := DB.get_movie_data_by_id(movie_id):
+				data = a
+		except:
+			data = [0, 0, 0, ""]
+
+
+		self.st_status = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Status:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.st_status.Wrap( -1 )
+
+		self.st_status.SetForegroundColour( wx.Colour( 255, 255, 255 ) )
+		self.st_status.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
+
+		entry_box_status.Add( self.st_status, 0, wx.ALL, 5 )
+
+		ch_statusChoices = [ u"Planned", u"Watching", u"Done"]
+		self.ch_status = wx.Choice( self.m_scrolledWindow1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, ch_statusChoices, 0 )
+		self.ch_status.SetSelection(data[2])
+		entry_box_status.Add( self.ch_status, 0, wx.ALL, 5 )
+
+
+		watchlist.Add( entry_box_status, 0, 0, 0 )
+
+		entry_box_rating = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.st_rating = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Rating:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.st_rating.Wrap( -1 )
+
+		self.st_rating.SetForegroundColour( wx.Colour( 255, 255, 255 ) )
+		self.st_rating.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
+
+		entry_box_rating.Add( self.st_rating, 0, wx.ALL, 5 )
+
+		self.m_spinCtrlDouble1 = wx.SpinCtrlDouble( self.m_scrolledWindow1, wx.ID_ANY, str(data[1]), wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 0, 10, 0.000000, 1 )
+		self.m_spinCtrlDouble1.SetDigits(0)
+		entry_box_rating.Add( self.m_spinCtrlDouble1, 0, wx.ALL, 5 )
+
+
+		watchlist.Add( entry_box_rating, 0, wx.EXPAND, 5 )
+
+		bSizer15 = wx.BoxSizer( wx.VERTICAL )
+
+		self.st_comment = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Kommentar:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.st_comment.Wrap( -1 )
+
+		self.st_comment.SetForegroundColour( wx.Colour( 255, 255, 255 ) )
+		self.st_comment.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOWTEXT ) )
+
+		bSizer15.Add( self.st_comment, 0, wx.ALL, 5 )
+
+		self.m_textCtrl1 = wx.TextCtrl( self.m_scrolledWindow1, wx.ID_ANY, data[3], wx.DefaultPosition, wx.Size( 400,200 ), wx.TE_MULTILINE )
+		bSizer15.Add( self.m_textCtrl1, 0, wx.ALL, 5 )
+
+
+		watchlist.Add( bSizer15, 0, wx.EXPAND, 5 )
+
+		buttons = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.delete = wx.Button( self.m_scrolledWindow1, wx.ID_ANY, u"delete", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.delete.Bind(wx.EVT_BUTTON, self.on_delete)
+		buttons.Add( self.delete, 0, wx.ALIGN_CENTER, 5 )
+
+		self.delete.myname = movie_id
+
+		self.save = wx.Button( self.m_scrolledWindow1, wx.ID_ANY, u"save", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.save.Bind(wx.EVT_BUTTON, self.on_save)
+		buttons.Add( self.save, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
+		self.save.myname = movie_id
+
+
+		watchlist.Add( buttons, 0, wx.EXPAND, 5 )
+
+
+		box_sizer_mall.Add( watchlist, 5, wx.EXPAND, 0 )
+
+
+		self.m_scrolledWindow1.SetSizer( box_sizer_mall )
+		self.m_scrolledWindow1.Layout()
+		box_sizer_mall.Fit( self.m_scrolledWindow1 )
+
+	def on_delete(self, event):
+		movie_id = event.GetEventObject().myname
+		DB.delete_entry(movie_id)
+
+	def on_save(self, event):
+		movie_id = event.GetEventObject().myname
+		status = int(self.ch_status.GetCurrentSelection())
+		rating = float(self.m_spinCtrlDouble1.GetValue())
+		comment_len = int(self.m_textCtrl1.GetNumberOfLines())
+		print(comment_len)
+		comment_strings = [self.m_textCtrl1.GetLineText(x) for x in range(comment_len)]
+		print(comment_strings)
+		comment = "\n".join(comment_strings)
+		print(comment)
+		DB.insert_data(movie_id, rating, status, comment)
 
 
 def cnvrt_bmp(link):
@@ -357,3 +523,17 @@ def short_name(name):
 	if len(name) > 20:
 		name = name[:20]+"..."
 	return name
+
+
+def desc_breaker(desc):
+	string = ""
+	desc = desc.replace("\n", " ")
+	i = 0
+	for e in desc:
+		if i >= 100 and e == " ":
+			string += "\n"
+			i = 0
+		else:
+			string += e
+		i+= 1
+	return string
