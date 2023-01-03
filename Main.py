@@ -1,7 +1,8 @@
 import gatherer as API
 import Fae_Datenbank as DB
 import time as t
-
+import subprocess as sub
+import os
 
 def println(text: str = ""):
     print("\n"+text)
@@ -16,6 +17,7 @@ def menu():
     print("[6] Watchlist ()")
     print("[7] Time Test (iterations)")
     print("[8] Config")
+    print("[9] START GUI")
     return input("\nSelect: ")
 
 def action(id_, re="", time="", name=""):
@@ -127,6 +129,9 @@ def action(id_, re="", time="", name=""):
             print("Iteration: " + str(x+1))
         print("Iterations Done in: " + str(round(t.time() - start, 2)))
         print("Time per Iteration: " + str(round((t.time() - start)/re, 2)))
+
+    elif id_ == 9:
+        sub.run(f"python {os.path.dirname(os.path.realpath(__file__))}/FEA/main.py")
 
 
 

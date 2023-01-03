@@ -14,6 +14,8 @@ import requests
 import gatherer as API
 import Fae_Datenbank as DB
 from PIL import Image
+import os
+path = os.path.dirname(os.path.realpath(__file__))
 ###########################################################################
 ## Class frame_main
 ###########################################################################
@@ -34,7 +36,7 @@ class frame_main ( wx.Frame ):
 
 		boxsizer_header.Add( ( 15, 0), 0, wx.EXPAND, 5 )
 
-		self.bitmap_logo = wx.StaticBitmap( self, wx.ID_ANY, wx.Bitmap( u"assets\\logo.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		self.bitmap_logo = wx.StaticBitmap( self, wx.ID_ANY, wx.Bitmap( f"{path}\\assets\\logo.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
 		boxsizer_header.Add( self.bitmap_logo, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
 
 		self.staticText_projectname = wx.StaticText( self, wx.ID_ANY, u"FEA", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -86,7 +88,7 @@ class frame_main ( wx.Frame ):
 
 		self.button_home = wx.BitmapButton( self, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE )
 
-		self.button_home.SetBitmap( wx.Bitmap( u"assets\\home.png", wx.BITMAP_TYPE_ANY ) )
+		self.button_home.SetBitmap( wx.Bitmap( f"{path}\\assets\\home.png", wx.BITMAP_TYPE_ANY ) )
 		self.button_home.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
 		self.button_home.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
 
@@ -97,7 +99,7 @@ class frame_main ( wx.Frame ):
 
 		self.button_watchlist = wx.BitmapButton( self, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE )
 
-		self.button_watchlist.SetBitmap( wx.Bitmap( u"assets\\list.png", wx.BITMAP_TYPE_ANY ) )
+		self.button_watchlist.SetBitmap( wx.Bitmap( f"{path}\\assets\\list.png", wx.BITMAP_TYPE_ANY ) )
 		self.button_watchlist.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
 
 		boxsizer_sideElements.Add( self.button_watchlist, 0, wx.ALL, 5 )
@@ -107,7 +109,7 @@ class frame_main ( wx.Frame ):
 
 		self.button_like = wx.BitmapButton( self, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE )
 
-		self.button_like.SetBitmap( wx.Bitmap( u"assets\\like.png", wx.BITMAP_TYPE_ANY ) )
+		self.button_like.SetBitmap( wx.Bitmap( f"{path}\\assets\\like.png", wx.BITMAP_TYPE_ANY ) )
 		self.button_like.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
 
 		boxsizer_sideElements.Add( self.button_like, 0, wx.ALL, 5 )
@@ -117,7 +119,7 @@ class frame_main ( wx.Frame ):
 
 		self.button_settings = wx.BitmapButton( self, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW|wx.BORDER_NONE )
 
-		self.button_settings.SetBitmap( wx.Bitmap( u"assets\\settings.png", wx.BITMAP_TYPE_ANY ) )
+		self.button_settings.SetBitmap( wx.Bitmap( f"{path}\\assets\\settings.png", wx.BITMAP_TYPE_ANY ) )
 		self.button_settings.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
 
 		boxsizer_sideElements.Add( self.button_settings, 0, wx.ALL, 5 )
