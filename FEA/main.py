@@ -7,7 +7,7 @@ class home(home.frame_main):
         super().__init__(parent)
         self.Show()
 
-
-app = wx.App()
-frame = home(None)
-app.MainLoop()
+if __name__ == "__main__":
+    app = wx.App()
+    frame = home(None)
+    app.MainLoop()
