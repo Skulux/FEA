@@ -1,4 +1,4 @@
-FEA Movie Database v0.42 by:
+FEA Movie Database v0.58 by:
 Fabian Harjes, Emilis Petrilionis, Alexander Weigend
 
 Requirements:
@@ -7,8 +7,8 @@ Requirements:
 - if modules won't install automatically over setup, read requirements.txt
 
 Currently Commandline Only
-GUI Unavailable
-Database Unavailable
+GUI partially available
+Database available
 Config Unavailable
 
 ---------------------*HOW TO START CLI*-------------------
