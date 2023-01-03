@@ -1,4 +1,4 @@
-FEA Movie Database v0.58 by:
+FEA Movie Database v0.61 by:
 Fabian Harjes, Emilis Petrilionis, Alexander Weigend
 
 Requirements:
@@ -15,9 +15,10 @@ Config Unavailable
 1. open cmd
 2. cd <Path to this Folder>
 3. python setup.py
+(Option to open GUI in CLI)
 ----------------------------------------------------------
 
--------------*HOW TO START GUI (Non-Interactive)*---------
+-------------*HOW TO START GUI (Interactive)*---------
 1. -||-
 2. -||-
 3. -||-

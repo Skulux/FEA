@@ -172,7 +172,7 @@ def remove(movie_id):
 def main():
     try:
         print("\n"*20)
-        print("Loading FEA v0.58 CLI Successful")
+        print("Loading FEA v0.61 CLI Successful")
         while True:
             action(menu())
     except Exception as ERR:
