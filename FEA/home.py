@@ -143,18 +143,6 @@ class frame_main ( wx.Frame ):
 
 		boxsizer_movie1 = wx.BoxSizer( wx.VERTICAL )
 
-		self.m_bpButton5 = wx.BitmapButton( self.m_scrolledWindow1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 210,265 ), wx.BU_AUTODRAW|0 )
-		boxsizer_movie1.Add( self.m_bpButton5, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
-
-		self.staticText_movie1 = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.staticText_movie1.Wrap( -1 )
-
-		self.staticText_movie1.SetFont( wx.Font( 14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous" ) )
-		self.staticText_movie1.SetForegroundColour( wx.Colour( 255, 255, 255 ) )
-
-		boxsizer_movie1.Add( self.staticText_movie1, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
-
-
 		boxsizer_moviesTop.Add( boxsizer_movie1, 1, wx.EXPAND, 5 )
 
 
@@ -175,7 +163,7 @@ class frame_main ( wx.Frame ):
 
 		boxsizer_main.Add( boxsizer_body, 1, wx.EXPAND, 5 )
 
-
+		self.on_home(None)
 		self.SetSizer( boxsizer_main )
 		self.Layout()
 
@@ -188,7 +176,6 @@ class frame_main ( wx.Frame ):
 		self.button_watchlist.Bind( wx.EVT_BUTTON, self.on_watchlist )
 		self.button_like.Bind( wx.EVT_BUTTON, self.on_like )
 		self.button_settings.Bind( wx.EVT_BUTTON, self.on_settings )
-		self.m_bpButton5.Bind( wx.EVT_BUTTON, self.on_movie )
 
 	def __del__( self ):
 		pass
@@ -228,7 +215,7 @@ class frame_main ( wx.Frame ):
 			for sizer2 in sizer_sizer:
 				temp_sizer.Add(sizer2, 1, wx.EXPAND, 5)
 				temp_sizer.Add((0, 0), 1, wx.EXPAND, 5)
-			boxsizer_moviesTop.Add(temp_sizer, 1, wx.EXPAND, 5)
+			boxsizer_moviesTop.Add(temp_sizer)
 		boxsizer_moviesTop.Add((0, 0), 1, wx.EXPAND, 5)
 		self.m_scrolledWindow1.SetSizer(boxsizer_moviesTop)
 		self.m_scrolledWindow1.Layout()
@@ -336,7 +323,7 @@ class frame_main ( wx.Frame ):
 			for sizer2 in sizer_sizer:
 				temp_sizer.Add(sizer2, 1, wx.EXPAND, 5)
 				temp_sizer.Add((0, 0), 1, wx.EXPAND, 5)
-			boxsizer_moviesTop.Add(temp_sizer, 1, wx.EXPAND, 5)
+			boxsizer_moviesTop.Add(temp_sizer)
 		boxsizer_moviesTop.Add((0, 0), 1, wx.EXPAND, 5)
 		self.m_scrolledWindow1.SetSizer(boxsizer_moviesTop)
 		self.m_scrolledWindow1.Layout()
