@@ -64,7 +64,11 @@ def insert_data(movie_id: int, rating: float, status: int, comment: str):
     :param comment: str
     :return: Watchlist Object
     """
-    return Watchlist(movie_id=movie_id, rating=rating, status=status, comment=comment)
+    try:
+        if get_movie_data_by_id(movie_id):
+            update_data(movie_id, rating, status, comment)
+    except:
+        return Watchlist(movie_id=movie_id, rating=rating, status=status, comment=comment)
 
 
 def update_data(movie_id: int, rating: float = None, status: int = None, comment: str = None):
