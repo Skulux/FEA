@@ -1,10 +1,9 @@
 import os
 import sqlobject
 
-db_filename = os.path.abspath('FEA.db')
-connection_string = 'sqlite:' + db_filename
-connection = sqlobject.connectionForURI(connection_string)
-sqlobject.sqlhub.processConnection = connection
+directory = os.path.dirname(os.path.realpath(__file__))
+# Database connection
+sqlobject.sqlhub.processConnection = sqlobject.connectionForURI(f'sqlite:{directory}/FEA.db')
 
 
 class Watchlist(sqlobject.SQLObject):
