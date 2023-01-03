@@ -75,11 +75,16 @@ def search_by_id(movie_id: int, title=False, poster=False, date=False, rating=Fa
         overview = True
     query = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={KEY}"
     res = s.get(query).json()
-    return [res["original_title"] if title else None,
+    try:
+        end = [res["original_title"] if title else None,
             "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + str(res["poster_path"]) if poster else None,
             res["release_date"] if date else None,
             res["vote_average"] if rating else None,
             res["overview"] if overview else None]
+    except:
+        end = None
+    finally:
+        return end
 
 
 def get_genres(movie_id: int):
@@ -119,7 +124,7 @@ def get_genre_list(movie_list: list, return_dict=False):
 
 
 def get_trending(time_span: str="week", title=False, poster=False, date=False, rating=False, overview=False,
-                 enable_all=False):
+                 enable_all=False, limit=6):
     """
     Gets all Trending Movies and attributes by timespan, all attributes are deactivated by default
     :param time_span: str ("day" or "week")
@@ -138,7 +143,7 @@ def get_trending(time_span: str="week", title=False, poster=False, date=False, r
         rating = True
         overview = True
     titles = {}
-    for page in range(1, 6):
+    for page in range(1, limit):
         query = f"https://api.themoviedb.org/3/trending/all/{time_span}?api_key={KEY}&page={page}"
         response = s.get(url=query)
         for x in response.json()["results"]:
