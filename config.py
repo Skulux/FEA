@@ -1,23 +1,24 @@
 import configparser
 import os
 import time
-
+import json
+directory = os.path.dirname(os.path.realpath(__file__))
 
 def create():
     config = configparser.ConfigParser()
-    if os.path.isfile('config.ini'):
-        os.remove('config.ini')
+    if os.path.isfile(f'{directory}\\config.ini'):
+        os.remove(f'{directory}\\config.ini')
     config.add_section('GENERAL')
     config.set('GENERAL', 'language', 'de')
     config.set('GENERAL', 'theme', 'light')
-    with open(r"config.ini", "w") as configfile:
+    with open(rf"{directory}\\config.ini", "w") as configfile:
         config.write(configfile)
 
 
 def setup():
     config = configparser.ConfigParser()
     try:
-        config.read('config.ini')
+        config.read(f'{directory}\\config.ini')
         theme = config.get('GENERAL', 'theme')
         lang = config.get('GENERAL', 'language')
         if theme not in ['dark', 'light']:
@@ -31,7 +32,7 @@ def setup():
 
 def read():
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read(f'{directory}\\config.ini')
     theme = config.get('GENERAL', 'theme')
     lang = config.get('GENERAL', 'language')
     return theme, lang
@@ -40,17 +41,21 @@ def read():
 def change(theme=None, language=None):
     config = configparser.ConfigParser()
     try:
-        config.read('config.ini')
+        config.read(f'{directory}\\config.ini')
         if theme:
             theme = config.set('GENERAL', 'theme', theme)
         if language:
             lang = config.set('GENERAL', 'language', language)
         if theme or language:
-            with open(r"config.ini", "w") as configfile:
+            with open(rf"{directory}\\config.ini", "w") as configfile:
                 config.write(configfile)
         theme = config.get('GENERAL', 'theme')
         lang = config.get('GENERAL', 'language')
         return theme, lang
     except Exception as ERR:
         print(ERR)
+
+
+def load_lang():
+    return json.load(open(f"{directory}\\lang.json"), encoding='utf-8')
 

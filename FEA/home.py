@@ -15,7 +15,10 @@ import gatherer as API
 import Fae_Datenbank as DB
 from PIL import Image
 import os
+import config as cf
 path = os.path.dirname(os.path.realpath(__file__))
+LANG = cf.read()[1]
+LANGF = cf.load_lang()
 ###########################################################################
 ## Class frame_main
 ###########################################################################
@@ -51,6 +54,7 @@ class frame_main ( wx.Frame ):
 		boxsizer_header.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 
 		self.searchCtrl_moviesearch = wx.SearchCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0|wx.BORDER_SIMPLE )
+		self.searchCtrl_moviesearch.SetDescriptiveText(u""+LANGF["search"][LANG])
 		self.searchCtrl_moviesearch.ShowSearchButton( True )
 		self.searchCtrl_moviesearch.ShowCancelButton( False )
 		self.searchCtrl_moviesearch.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous" ) )
@@ -62,7 +66,7 @@ class frame_main ( wx.Frame ):
 
 		boxsizer_header.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 
-		self.button_suprise = wx.ToggleButton( self, wx.ID_ANY, u"Überrasch mich!", wx.DefaultPosition, wx.DefaultSize, wx.BORDER_NONE )
+		self.button_suprise = wx.ToggleButton( self, wx.ID_ANY, u""+LANGF["surprise_me"][LANG], wx.DefaultPosition, wx.DefaultSize, wx.BORDER_NONE )
 		self.button_suprise.SetValue( True )
 		self.button_suprise.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous" ) )
 		self.button_suprise.SetForegroundColour( wx.Colour( 114, 114, 114 ) )
@@ -342,7 +346,55 @@ class frame_main ( wx.Frame ):
 		event.Skip()
 
 	def on_settings( self, event ):
-		event.Skip()
+		self.m_scrolledWindow1.DestroyChildren()
+
+		boxsizer_settings = wx.BoxSizer(wx.VERTICAL)
+
+		boxsizer_lang_text = wx.BoxSizer(wx.HORIZONTAL)
+
+		self.st_lang = wx.StaticText(self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["choose_language"][LANG], wx.DefaultPosition, wx.DefaultSize, 0)
+		self.st_lang.Wrap(-1)
+
+		self.st_lang.SetFont(
+			wx.Font(36, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial"))
+		self.st_lang.SetForegroundColour(wx.Colour(255, 255, 255))
+		self.st_lang.SetBackgroundColour(wx.Colour(24, 24, 24))
+
+		boxsizer_lang_text.Add(self.st_lang, 0, wx.ALL, 5)
+
+		boxsizer_settings.Add(boxsizer_lang_text, 0, wx.ALIGN_CENTER, 5)
+
+		boxsizer_lang_box = wx.BoxSizer(wx.HORIZONTAL)
+
+		ch_langChoices = [u"Deutsch", u"English"]
+		self.ch_lang = wx.Choice(self.m_scrolledWindow1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, ch_langChoices, 0)
+
+		self.ch_lang.SetSelection(1 if cf.read()[1] == "en-US" else 0)
+		self.ch_lang.SetFont(
+			wx.Font(36, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial"))
+		self.ch_lang.SetBackgroundColour(wx.Colour(24, 24, 24))
+
+		boxsizer_lang_box.Add(self.ch_lang, 0, wx.ALL | wx.TOP, 5)
+
+		boxsizer_settings.Add(boxsizer_lang_box, 1, wx.ALIGN_CENTER, 5)
+		self.ch_lang.Bind(wx.EVT_CHOICE, self.on_lang)
+
+		self.m_scrolledWindow1.SetSizer(boxsizer_settings)
+		self.m_scrolledWindow1.Layout()
+
+	def on_lang(self, event):
+		global LANG
+		sel = int(self.ch_lang.GetCurrentSelection()) # 0 = DE| 1 = EN
+		print(sel)
+		if sel == 1:
+			sel = "en-US"
+		else:
+			sel = "de-DE"
+		cf.change(language=sel)
+		API.lang_setup()
+		LANG = sel
+
+
 
 	def on_movie( self, event):
 		movie_id = event.GetEventObject().myname
@@ -365,7 +417,7 @@ class frame_main ( wx.Frame ):
 		self.img = wx.StaticBitmap( self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(movie[1]), wx.DefaultPosition, wx.Size( 210,265 ), 0 )
 		boxsizer_left.Add( self.img, 0, wx.ALL, 5 )
 
-		self.year = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Release: "+str(movie[2]), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.year = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["release"][LANG]+": "+str(movie[2]), wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.year.Wrap( -1 )
 
 		self.year.SetFont( wx.Font( 9, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
@@ -374,7 +426,7 @@ class frame_main ( wx.Frame ):
 
 		boxsizer_left.Add( self.year, 0, wx.ALL, 5 )
 
-		self.rating = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Rating: "+str(movie[3])+u"★", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.rating = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["rating"][LANG]+": "+str(movie[3])+u"★", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.rating.Wrap( -1 )
 
 		self.rating.SetFont( wx.Font( 9, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
@@ -415,7 +467,7 @@ class frame_main ( wx.Frame ):
 			data = [0, 0, 0, ""]
 
 
-		self.st_status = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Status:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.st_status = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["status"][LANG]+": ", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.st_status.Wrap( -1 )
 
 		self.st_status.SetForegroundColour( wx.Colour( 255, 255, 255 ) )
@@ -433,7 +485,7 @@ class frame_main ( wx.Frame ):
 
 		entry_box_rating = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.st_rating = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Rating:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.st_rating = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["rating"][LANG]+": ", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.st_rating.Wrap( -1 )
 
 		self.st_rating.SetForegroundColour( wx.Colour( 255, 255, 255 ) )
@@ -450,7 +502,7 @@ class frame_main ( wx.Frame ):
 
 		bSizer15 = wx.BoxSizer( wx.VERTICAL )
 
-		self.st_comment = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Kommentar:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.st_comment = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["comment"][LANG]+": ", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.st_comment.Wrap( -1 )
 
 		self.st_comment.SetForegroundColour( wx.Colour( 255, 255, 255 ) )
@@ -466,13 +518,13 @@ class frame_main ( wx.Frame ):
 
 		buttons = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.delete = wx.Button( self.m_scrolledWindow1, wx.ID_ANY, u"delete", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.delete = wx.Button( self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["delete"][LANG], wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.delete.Bind(wx.EVT_BUTTON, self.on_delete)
 		buttons.Add( self.delete, 0, wx.ALIGN_CENTER, 5 )
 
 		self.delete.myname = movie_id
 
-		self.save = wx.Button( self.m_scrolledWindow1, wx.ID_ANY, u"save", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.save = wx.Button( self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["save"][LANG], wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.save.Bind(wx.EVT_BUTTON, self.on_save)
 		buttons.Add( self.save, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
 		self.save.myname = movie_id

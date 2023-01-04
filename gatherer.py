@@ -2,8 +2,9 @@ from random import choice
 import requests
 from collections import Counter
 import multiprocessing
+import config as cf
 KEY = "e93c3350ce19973913e4baf37a49a213"
-lang = "en-US"
+lang = cf.read()[1]
 
 
 def search_by_name(term: str, title=False, poster=False, date=False, rating=False, overview=False, enable_all=False):
@@ -73,7 +74,7 @@ def search_by_id(movie_id: int, title=False, poster=False, date=False, rating=Fa
         date = True
         rating = True
         overview = True
-    query = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={KEY}"
+    query = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={KEY}&language={lang}"
     res = s.get(query).json()
     try:
         end = [res["original_title"] if title else None,
@@ -144,7 +145,7 @@ def get_trending(time_span: str="week", title=False, poster=False, date=False, r
         overview = True
     titles = {}
     for page in range(1, limit):
-        query = f"https://api.themoviedb.org/3/trending/all/{time_span}?api_key={KEY}&page={page}"
+        query = f"https://api.themoviedb.org/3/trending/all/{time_span}?api_key={KEY}&page={page}&language={lang}"
         response = s.get(url=query)
         for x in response.json()["results"]:
             try:
@@ -170,6 +171,12 @@ def compare_genres(movie_list: list, offset: int = 0):
     with multiprocessing.Pool() as p:
         movies = [id_ for id_ in p.starmap(compare_genres_helper, [(id_, fav_genres, offset) for id_ in list(get_trending("week").keys())]) if id_ is not None]
     return choice(movies) if movies and offset <= 2 else compare_genres(movie_list, offset + 1)
+
+
+def lang_setup():
+    global lang
+    lang = cf.read()[1]
+
 
 
 s = requests.session()
