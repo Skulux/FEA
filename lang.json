@@ -1,0 +1,38 @@
+{
+  "surprise_me": {
+    "en-US": "Surprise Me",
+    "de-DE": "Ueberrasche Mich"
+  },
+  "search": {
+    "en-US": "Search",
+    "de-DE": "Suchen"
+  },
+  "release": {
+    "en-US": "Release",
+    "de-DE": "Veroeffentlicht"
+  },
+  "status": {
+    "en-US": "Status",
+    "de-DE": "Status"
+  },
+  "rating": {
+    "en-US": "Rating",
+    "de-DE": "Bewertung"
+  },
+  "comment": {
+    "en-US": "Comment",
+    "de-DE": "Kommentar"
+  },
+  "delete": {
+    "en-US": "Delete",
+    "de-DE": "Loeschen"
+  },
+  "save": {
+    "en-US": "Save",
+    "de-DE": "Speichern"
+  },
+  "choose_language": {
+    "en-US": "Choose Language",
+    "de-DE": "Sprache Auswaehlen"
+  }
+}
