@@ -1,3 +1,4 @@
+import config
 import gatherer as API
 import Fae_Datenbank as DB
 import time as t
@@ -181,5 +182,6 @@ def main():
 
 
 if __name__ == "__main__":
+    config.setup()
     main()
     input("Press to Close")

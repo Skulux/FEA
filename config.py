@@ -5,6 +5,10 @@ import json
 directory = os.path.dirname(os.path.realpath(__file__))
 
 def create():
+    """
+    creates a configfile and deletes old one.
+    :return:
+    """
     config = configparser.ConfigParser()
     if os.path.isfile(f'{directory}\\config.ini'):
         os.remove(f'{directory}\\config.ini')
@@ -16,6 +20,10 @@ def create():
 
 
 def setup():
+    """
+    sets up the config, if config not available creates new one
+    :return: tuple(str, str) theme, language
+    """
     config = configparser.ConfigParser()
     try:
         config.read(f'{directory}\\config.ini')
@@ -31,6 +39,10 @@ def setup():
 
 
 def read():
+    """
+    reads the config
+    :return: tuple(str, str) theme and language
+    """
     config = configparser.ConfigParser()
     config.read(f'{directory}\\config.ini')
     theme = config.get('GENERAL', 'theme')
@@ -39,6 +51,12 @@ def read():
 
 
 def change(theme=None, language=None):
+    """
+    changes theme and/or language if given in the config
+    :param theme: string dark/light
+    :param language: string de-DE/en-US
+    :return: tuple(str, str) theme and lang
+    """
     config = configparser.ConfigParser()
     try:
         config.read(f'{directory}\\config.ini')
@@ -57,5 +75,9 @@ def change(theme=None, language=None):
 
 
 def load_lang():
+    """
+    loads the language file (lang.json)
+    :return:
+    """
     return json.load(open(f"{directory}\\lang.json"), encoding='utf-8')
 

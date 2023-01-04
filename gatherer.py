@@ -161,11 +161,24 @@ def get_trending(time_span: str="week", title=False, poster=False, date=False, r
 
 
 def compare_genres_helper(id_, fav_genres, offset):
+    """
+    helper of compare genres
+    :param id_: int movie_id
+    :param fav_genres: list of fav genres
+    :param offset: int offset
+    :return: int movie_id or None
+    """
     if len(set(get_genres(id_)) & set(fav_genres)) >= len(fav_genres) - offset:
         return id_
     return None
 
 def compare_genres(movie_list: list, offset: int = 0):
+    """
+    compare algorith to find suitable movie
+    :param movie_list: list of movie_ids
+    :param offset: int offset
+    :return: int movie_id
+    """
     fav_genres = get_genre_list(movie_list)
     movies = []
     with multiprocessing.Pool() as p:
@@ -174,6 +187,10 @@ def compare_genres(movie_list: list, offset: int = 0):
 
 
 def lang_setup():
+    """
+    sets up the langauge used
+    :return: None
+    """
     global lang
     lang = cf.read()[1]
 

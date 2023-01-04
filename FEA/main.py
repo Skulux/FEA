@@ -1,6 +1,6 @@
 import home
 import wx
-
+import config as cf
 
 class home(home.frame_main):
     def __init__(self, parent):
@@ -8,6 +8,7 @@ class home(home.frame_main):
         self.Show()
 
 if __name__ == "__main__":
+    cf.setup()
     app = wx.App()
     frame = home(None)
     app.MainLoop()
