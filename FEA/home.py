@@ -509,7 +509,7 @@ def cnvrt_bmp(link):
 	try:
 		bmp = requests.get(link)
 		img = Image.open(io.BytesIO(bmp.content))
-		img = img.save("temp.bmp")
+		img.save("temp.bmp")
 		bmp = wx.Bitmap("temp.bmp")
 	except:
 		bmp = wx.Bitmap("assets\\missing.bmp")
@@ -524,16 +524,3 @@ def short_name(name):
 		name = name[:20]+"..."
 	return name
 
-
-def desc_breaker(desc):
-	string = ""
-	desc = desc.replace("\n", " ")
-	i = 0
-	for e in desc:
-		if i >= 100 and e == " ":
-			string += "\n"
-			i = 0
-		else:
-			string += e
-		i+= 1
-	return string
