@@ -392,6 +392,7 @@ class frame_main ( wx.Frame ):
 		cf.change(language=sel)
 		API.lang_setup()
 		LANG = sel
+		self.Hide()
 		self.__init__(None)
 
 
