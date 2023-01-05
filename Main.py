@@ -180,7 +180,6 @@ def main():
         with open("Last_SetupError.txt", "w+") as f:
             f.write(str(ERR))
 
-
 if __name__ == "__main__":
     config.setup()
     main()

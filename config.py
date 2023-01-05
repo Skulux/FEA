@@ -13,7 +13,7 @@ def create():
     if os.path.isfile(f'{directory}\\config.ini'):
         os.remove(f'{directory}\\config.ini')
     config.add_section('GENERAL')
-    config.set('GENERAL', 'language', 'de')
+    config.set('GENERAL', 'language', 'en-US')
     config.set('GENERAL', 'theme', 'light')
     with open(rf"{directory}\\config.ini", "w") as configfile:
         config.write(configfile)
@@ -31,11 +31,11 @@ def setup():
         lang = config.get('GENERAL', 'language')
         if theme not in ['dark', 'light']:
             create()
-            return "light", "de-DE"
+            return "light", "en-US"
         return theme, lang
     except:
         create()
-        return "light", "de-DE"
+        return "light", "en-US"
 
 
 def read():

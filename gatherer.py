@@ -4,7 +4,10 @@ from collections import Counter
 import multiprocessing
 import config as cf
 KEY = "e93c3350ce19973913e4baf37a49a213"
-lang = cf.read()[1]
+try:
+    lang = cf.read()[1]
+except:
+    lang = "en-US"
 
 
 def search_by_name(term: str, title=False, poster=False, date=False, rating=False, overview=False, enable_all=False):
