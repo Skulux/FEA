@@ -27,7 +27,7 @@ class frame_main ( wx.Frame ):
 
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"F E A", pos = wx.DefaultPosition, size = wx.Size( 1440,1024 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
-
+		self.parent = parent
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetFont( wx.Font( 9, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
 		self.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
@@ -180,12 +180,14 @@ class frame_main ( wx.Frame ):
 		self.button_watchlist.Bind( wx.EVT_BUTTON, self.on_watchlist )
 		self.button_like.Bind( wx.EVT_BUTTON, self.on_like )
 		self.button_settings.Bind( wx.EVT_BUTTON, self.on_settings )
-
+		self.Bind(wx.EVT_CLOSE, self.OnClose)
 	def __del__( self ):
 		pass
 
+	def OnClose(self, event):
+		exit()
 
-	# Virtual event handlers, override them in your derived class
+
 	def on_search( self, event ):
 		self.m_scrolledWindow1.DestroyChildren()
 		trends = API.search_by_name(str(self.searchCtrl_moviesearch.GetValue()), enable_all=True)
@@ -393,7 +395,7 @@ class frame_main ( wx.Frame ):
 		API.lang_setup()
 		LANG = sel
 		self.Hide()
-		self.__init__(None)
+		self.child = self.__init__(self)
 
 
 
