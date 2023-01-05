@@ -42,7 +42,7 @@ class frame_main ( wx.Frame ):
 		self.bitmap_logo = wx.StaticBitmap( self, wx.ID_ANY, wx.Bitmap( f"{path}\\assets\\logo.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
 		boxsizer_header.Add( self.bitmap_logo, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
 
-		self.staticText_projectname = wx.StaticText( self, wx.ID_ANY, u"FEA_G", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.staticText_projectname = wx.StaticText( self, wx.ID_ANY, u"FEA", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.staticText_projectname.Wrap( -1 )
 
 		self.staticText_projectname.SetFont( wx.Font( 44, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous" ) )
