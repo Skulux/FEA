@@ -6,7 +6,7 @@ import config as cf
 
 KEY = "e93c3350ce19973913e4baf37a49a213"
 try:
-    lang = cf.read()[1]
+    lang = cf.setup()[1]
 except:
     lang = "en-US"
 
@@ -196,7 +196,7 @@ def lang_setup():
     :return: None
     """
     global lang
-    lang = cf.read()[1]
+    lang = cf.setup()[1]
 
 
 
