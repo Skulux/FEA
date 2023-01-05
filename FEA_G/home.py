@@ -385,7 +385,6 @@ class frame_main ( wx.Frame ):
 	def on_lang(self, event):
 		global LANG
 		sel = int(self.ch_lang.GetCurrentSelection()) # 0 = DE| 1 = EN
-		print(sel)
 		if sel == 1:
 			sel = "en-US"
 		else:
@@ -393,6 +392,7 @@ class frame_main ( wx.Frame ):
 		cf.change(language=sel)
 		API.lang_setup()
 		LANG = sel
+		self.__init__(None)
 
 
 
@@ -549,11 +549,8 @@ class frame_main ( wx.Frame ):
 		status = int(self.ch_status.GetCurrentSelection())
 		rating = float(self.m_spinCtrlDouble1.GetValue())
 		comment_len = int(self.m_textCtrl1.GetNumberOfLines())
-		print(comment_len)
 		comment_strings = [self.m_textCtrl1.GetLineText(x) for x in range(comment_len)]
-		print(comment_strings)
 		comment = "\n".join(comment_strings)
-		print(comment)
 		DB.insert_data(movie_id, rating, status, comment)
 
 
