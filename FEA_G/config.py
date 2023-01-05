@@ -14,7 +14,7 @@ def create():
     config.add_section('GENERAL')
     config.set('GENERAL', 'language', 'en-US')
     config.set('GENERAL', 'theme', 'light')
-    with open(rf"{directory}\\config.ini", "w") as configfile:
+    with open(f"{directory}\\config.ini", "w") as configfile:
         config.write(configfile)
 
 
@@ -64,7 +64,7 @@ def change(theme=None, language=None):
         if language:
             lang = config.set('GENERAL', 'language', language)
         if theme or language:
-            with open(rf"{directory}\\config.ini", "w") as configfile:
+            with open(f"{directory}\\config.ini", "w") as configfile:
                 config.write(configfile)
         theme = config.get('GENERAL', 'theme')
         lang = config.get('GENERAL', 'language')
