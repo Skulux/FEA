@@ -10,12 +10,12 @@
 import wx
 import wx.xrc
 import io
+import os
 import requests
-import gatherer as API
+import gatherer as API, config as cf
 import Fae_Datenbank as DB
 from PIL import Image
-import os
-import config as cf
+
 path = os.path.dirname(os.path.realpath(__file__))
 LANG = cf.read()[1]
 LANGF = cf.load_lang()
@@ -42,7 +42,7 @@ class frame_main ( wx.Frame ):
 		self.bitmap_logo = wx.StaticBitmap( self, wx.ID_ANY, wx.Bitmap( f"{path}\\assets\\logo.png", wx.BITMAP_TYPE_ANY ), wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
 		boxsizer_header.Add( self.bitmap_logo, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
 
-		self.staticText_projectname = wx.StaticText( self, wx.ID_ANY, u"FEA", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.staticText_projectname = wx.StaticText( self, wx.ID_ANY, u"FEA_G", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.staticText_projectname.Wrap( -1 )
 
 		self.staticText_projectname.SetFont( wx.Font( 44, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous" ) )

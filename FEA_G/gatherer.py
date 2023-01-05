@@ -3,6 +3,7 @@ import requests
 from collections import Counter
 import multiprocessing
 import config as cf
+
 KEY = "e93c3350ce19973913e4baf37a49a213"
 try:
     lang = cf.read()[1]

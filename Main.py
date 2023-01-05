@@ -1,9 +1,8 @@
-import config
-import gatherer as API
-import Fae_Datenbank as DB
+from FEA_G import config, gatherer as API, Fae_Datenbank as DB
 import time as t
 import subprocess as sub
-import os
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 def println(text: str = ""):
     print("\n"+text)
@@ -132,7 +131,7 @@ def action(id_, re="", time="", name=""):
         print("Time per Iteration: " + str(round((t.time() - start)/re, 2)))
 
     elif id_ == 9:
-        sub.run(f"python {os.path.dirname(os.path.realpath(__file__))}/FEA/main.py")
+        sub.run(f"python {os.path.dirname(os.path.realpath(__file__))}/FEA_G/main.py")
 
 
 

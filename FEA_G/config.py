@@ -1,6 +1,5 @@
 import configparser
 import os
-import time
 import json
 directory = os.path.dirname(os.path.realpath(__file__))
 
@@ -9,9 +8,9 @@ def create():
     creates a configfile and deletes old one.
     :return:
     """
-    config = configparser.ConfigParser()
     if os.path.isfile(f'{directory}\\config.ini'):
         os.remove(f'{directory}\\config.ini')
+    config = configparser.ConfigParser()
     config.add_section('GENERAL')
     config.set('GENERAL', 'language', 'en-US')
     config.set('GENERAL', 'theme', 'light')
@@ -79,5 +78,5 @@ def load_lang():
     loads the language file (lang.json)
     :return:
     """
-    return json.load(open(f"{directory}\\lang.json"), encoding='utf-8')
+    return json.load(open(f"{directory}\\lang.json"))
 
