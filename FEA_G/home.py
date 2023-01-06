@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-###########################################################################
-## Python code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)
-## http://www.wxformbuilder.org/
-##
-## PLEASE DO *NOT* EDIT THIS FILE!
-###########################################################################
 
 import wx
 import wx.xrc
@@ -19,9 +13,7 @@ from PIL import Image
 path = os.path.dirname(os.path.realpath(__file__))
 LANG = cf.read()[1]
 LANGF = cf.load_lang()
-###########################################################################
-## Class frame_main
-###########################################################################
+
 
 class frame_main ( wx.Frame ):
 
