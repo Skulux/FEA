@@ -420,6 +420,15 @@ class frame_main ( wx.Frame ):
 		self.img = wx.StaticBitmap( self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(movie[1]), wx.DefaultPosition, wx.Size( 210,265 ), 0 )
 		boxsizer_left.Add( self.img, 0, wx.ALL, 5 )
 
+		self.name = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u"Name: "+str(movie[0]), wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.name.Wrap( -1 )
+
+		self.name.SetFont( wx.Font( 9, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
+		self.name.SetForegroundColour( wx.Colour( 255, 255, 255 ) )
+		self.name.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
+
+		boxsizer_left.Add(self.name, 0, wx.ALL, 5)
+
 		self.year = wx.StaticText( self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["release"][LANG]+": "+str(movie[2]), wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.year.Wrap( -1 )
 
