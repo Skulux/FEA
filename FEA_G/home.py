@@ -565,7 +565,7 @@ def cnvrt_bmp(link):
 		img.save("temp.bmp")
 		bmp = wx.Bitmap("temp.bmp")
 	except:
-		bmp = wx.Bitmap("assets\\missing.bmp")
+		bmp = wx.Bitmap(f"{path}\\assets\\missing.bmp")
 	finally:
 		bmp.Rescale(bmp, (210, 265))
 		bmp = wx.Bitmap(bmp)
