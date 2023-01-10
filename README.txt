@@ -1,4 +1,4 @@
-FEA Movie Database v0.61 by:
+FEA Movie Database v0.8.5 by:
 Fabian Harjes, Emilis Petrilionis, Alexander Weigend
 
 Requirements:
@@ -8,6 +8,8 @@ Requirements:
 
 
 ---------------------*HOW TO START*-------------------
+1. open start.bat
+OR
 1. open cmd
 2. cd <Path to this Folder>
 3. python setup.py
