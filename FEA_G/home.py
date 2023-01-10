@@ -297,42 +297,56 @@ class frame_main ( wx.Frame ):
 			movies += [API.search_by_id(movie, enable_all=True)]
 
 		sizers_movie = []
-
-		for i, movie in enumerate(movies):
-			try:
-				self.bmp_button = wx.BitmapButton(self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(movie[1]), wx.DefaultPosition,
-												   wx.Size(210, 265), wx.BU_AUTODRAW | 0)
-				self.bmp_button.myname = movie_ids[i]
-				sizers_movie += [wx.BoxSizer(wx.VERTICAL)]
-				sizers_movie[-1].Add(self.bmp_button, 0, wx.ALIGN_CENTER | wx.ALL, 5)
-				self.staticText_movie1 = wx.StaticText(self.m_scrolledWindow1, wx.ID_ANY, u""+short_name(movie[0]), wx.DefaultPosition,
-													   wx.DefaultSize, 0)
-				self.staticText_movie1.Wrap(-1)
-				self.staticText_movie1.SetFont(
-					wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous"))
-				self.staticText_movie1.SetForegroundColour(wx.Colour(255, 255, 255))
-				sizers_movie[-1].Add(self.staticText_movie1, 0, wx.ALIGN_CENTER | wx.ALL, 5)
-				self.bmp_button.Bind(wx.EVT_BUTTON, self.on_movie)
-			except:
-				pass
-		sizer_sizer = []
-		boxsizer_moviesTop = wx.BoxSizer(wx.VERTICAL)
-		for sizer in sizers_movie:
-			sizer_sizer += [sizer]
-			if len(sizer_sizer) == 4:
+		if movies:
+			for i, movie in enumerate(movies):
+				try:
+					self.bmp_button = wx.BitmapButton(self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(movie[1]), wx.DefaultPosition,
+													   wx.Size(210, 265), wx.BU_AUTODRAW | 0)
+					self.bmp_button.myname = movie_ids[i]
+					sizers_movie += [wx.BoxSizer(wx.VERTICAL)]
+					sizers_movie[-1].Add(self.bmp_button, 0, wx.ALIGN_CENTER | wx.ALL, 5)
+					self.staticText_movie1 = wx.StaticText(self.m_scrolledWindow1, wx.ID_ANY, u""+short_name(movie[0]), wx.DefaultPosition,
+														   wx.DefaultSize, 0)
+					self.staticText_movie1.Wrap(-1)
+					self.staticText_movie1.SetFont(
+						wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous"))
+					self.staticText_movie1.SetForegroundColour(wx.Colour(255, 255, 255))
+					sizers_movie[-1].Add(self.staticText_movie1, 0, wx.ALIGN_CENTER | wx.ALL, 5)
+					self.bmp_button.Bind(wx.EVT_BUTTON, self.on_movie)
+				except:
+					pass
+			sizer_sizer = []
+			boxsizer_moviesTop = wx.BoxSizer(wx.VERTICAL)
+			for sizer in sizers_movie:
+				sizer_sizer += [sizer]
+				if len(sizer_sizer) == 4:
+					temp_sizer = wx.BoxSizer(wx.HORIZONTAL)
+					for sizer2 in sizer_sizer:
+						temp_sizer.Add(sizer2, 1, wx.EXPAND, 5)
+						temp_sizer.Add((0, 0), 1, wx.EXPAND, 5)
+					sizer_sizer = []
+					boxsizer_moviesTop.Add(temp_sizer)
+			if sizer_sizer:
 				temp_sizer = wx.BoxSizer(wx.HORIZONTAL)
 				for sizer2 in sizer_sizer:
 					temp_sizer.Add(sizer2, 1, wx.EXPAND, 5)
 					temp_sizer.Add((0, 0), 1, wx.EXPAND, 5)
-				sizer_sizer = []
 				boxsizer_moviesTop.Add(temp_sizer)
-		if sizer_sizer:
+			boxsizer_moviesTop.Add((0, 0), 1, wx.EXPAND, 5)
+		else:
+			boxsizer_moviesTop = wx.BoxSizer(wx.VERTICAL)
 			temp_sizer = wx.BoxSizer(wx.HORIZONTAL)
-			for sizer2 in sizer_sizer:
-				temp_sizer.Add(sizer2, 1, wx.EXPAND, 5)
-				temp_sizer.Add((0, 0), 1, wx.EXPAND, 5)
+			self.staticText_movie1 = wx.StaticText(self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["empty"][LANG],
+												   wx.DefaultPosition,
+												   wx.DefaultSize, 0)
+			self.staticText_movie1.Wrap(-1)
+			self.staticText_movie1.SetFont(
+				wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Righteous"))
+			self.staticText_movie1.SetForegroundColour(wx.Colour(255, 255, 255))
+			temp_sizer.Add(self.staticText_movie1, 1, wx.ALIGN_CENTER, 5)
 			boxsizer_moviesTop.Add(temp_sizer)
-		boxsizer_moviesTop.Add((0, 0), 1, wx.EXPAND, 5)
+			boxsizer_moviesTop.Add((0, 0), 1, wx.EXPAND, 5)
+
 		self.m_scrolledWindow1.SetSizer(boxsizer_moviesTop)
 		self.m_scrolledWindow1.Layout()
 
