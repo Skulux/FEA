@@ -24,6 +24,8 @@ class frame_main ( wx.Frame ):
 		self.SetFont( wx.Font( 9, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
 		self.SetBackgroundColour( wx.Colour( 24, 24, 24 ) )
 
+		self.SetIcon(wx.Icon(f"{path}\\assets\\logo.ico"))
+
 		boxsizer_main = wx.BoxSizer( wx.VERTICAL )
 
 		boxsizer_header = wx.BoxSizer( wx.HORIZONTAL )
