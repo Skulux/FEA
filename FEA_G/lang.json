@@ -34,5 +34,9 @@
   "choose_language": {
     "en-US": "Choose Language",
     "de-DE": "Sprache Auswaehlen"
+  },
+  "empty": {
+    "en-US": "Pretty empty in here",
+    "de-DE": "Ziemlich leer Hier"
   }
 }
