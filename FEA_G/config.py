@@ -14,6 +14,7 @@ def create():
     config.add_section('GENERAL')
     config.set('GENERAL', 'language', 'en-US')
     config.set('GENERAL', 'theme', 'light')
+    config.set('GENERAL', 'nsfw', 'false')
     with open(f"{directory}\\config.ini", "w") as configfile:
         config.write(configfile)
 
@@ -25,16 +26,14 @@ def setup():
     """
     config = configparser.ConfigParser()
     try:
-        config.read(f'{directory}\\config.ini')
-        theme = config.get('GENERAL', 'theme')
-        lang = config.get('GENERAL', 'language')
+        theme, lang, nsfw = read()
         if theme not in ['dark', 'light']:
             create()
-            return "light", "en-US"
-        return theme, lang
+            return "light", "en-US", "false"
+        return theme, lang, nsfw
     except:
         create()
-        return "light", "en-US"
+        return "light", "en-US", "false"
 
 
 def read():
@@ -46,29 +45,31 @@ def read():
     config.read(f'{directory}\\config.ini')
     theme = config.get('GENERAL', 'theme')
     lang = config.get('GENERAL', 'language')
-    return theme, lang
+    nsfw = config.get('GENERAL', 'nsfw')
+    return theme, lang, nsfw
 
 
-def change(theme=None, language=None):
+def change(theme=None, language=None, nsfw=None):
     """
     changes theme and/or language if given in the config
     :param theme: string dark/light
     :param language: string de-DE/en-US
-    :return: tuple(str, str) theme and lang
+    :param nsfw: string false/true
+    :return: tuple(str, str, str) theme, lang and nsfw
     """
     config = configparser.ConfigParser()
     try:
         config.read(f'{directory}\\config.ini')
         if theme:
-            theme = config.set('GENERAL', 'theme', theme)
+            config.set('GENERAL', 'theme', theme)
         if language:
-            lang = config.set('GENERAL', 'language', language)
-        if theme or language:
+            config.set('GENERAL', 'language', language)
+        if nsfw:
+            config.set('GENERAL', 'nsfw', nsfw)
+        if theme or language or nsfw:
             with open(f"{directory}\\config.ini", "w") as configfile:
                 config.write(configfile)
-        theme = config.get('GENERAL', 'theme')
-        lang = config.get('GENERAL', 'language')
-        return theme, lang
+        return read()
     except Exception as ERR:
         print(ERR)
 

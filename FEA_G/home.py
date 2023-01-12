@@ -13,6 +13,7 @@ from PIL import Image
 path = os.path.dirname(os.path.realpath(__file__))
 LANG = cf.read()[1]
 LANGF = cf.load_lang()
+NSFW = cf.read()[2]
 
 
 class frame_main ( wx.Frame ):
@@ -187,7 +188,7 @@ class frame_main ( wx.Frame ):
 
 		for movie in trends:
 			self.m_bpButton5 = wx.BitmapButton(self.m_scrolledWindow1, wx.ID_ANY, cnvrt_bmp(trends[movie][1]), wx.DefaultPosition,
-											   wx.Size(210, 265), wx.BU_AUTODRAW | 0)
+											   wx.Size(-1, -1), wx.BU_AUTODRAW | 0)
 			sizers_movie += [wx.BoxSizer(wx.VERTICAL)]
 			self.m_bpButton5.myname = movie
 			sizers_movie[-1].Add(self.m_bpButton5, 0, wx.ALIGN_CENTER | wx.ALL, 5)
@@ -219,6 +220,7 @@ class frame_main ( wx.Frame ):
 		boxsizer_moviesTop.Add((0, 0), 1, wx.EXPAND, 5)
 		self.m_scrolledWindow1.SetSizer(boxsizer_moviesTop)
 		self.m_scrolledWindow1.Layout()
+		self.Layout()
 
 	def on_suprise( self, event ):
 		self.m_scrolledWindow1.DestroyChildren()
@@ -247,6 +249,7 @@ class frame_main ( wx.Frame ):
 		boxsizer_moviesTop.Add((0, 0), 1, wx.EXPAND, 5)
 		self.m_scrolledWindow1.SetSizer(boxsizer_moviesTop)
 		self.m_scrolledWindow1.Layout()
+		self.Layout()
 
 	def on_home( self, event ):
 		self.m_scrolledWindow1.DestroyChildren()
@@ -287,6 +290,7 @@ class frame_main ( wx.Frame ):
 		boxsizer_moviesTop.Add((0, 0), 1, wx.EXPAND, 5)
 		self.m_scrolledWindow1.SetSizer(boxsizer_moviesTop)
 		self.m_scrolledWindow1.Layout()
+		self.Layout()
 
 	def on_watchlist( self, event):
 		self.m_scrolledWindow1.DestroyChildren()
@@ -349,6 +353,7 @@ class frame_main ( wx.Frame ):
 
 		self.m_scrolledWindow1.SetSizer(boxsizer_moviesTop)
 		self.m_scrolledWindow1.Layout()
+		self.Layout()
 
 	def on_like( self, event ):
 		event.Skip()
@@ -359,6 +364,8 @@ class frame_main ( wx.Frame ):
 		boxsizer_settings = wx.BoxSizer(wx.VERTICAL)
 
 		boxsizer_lang_text = wx.BoxSizer(wx.HORIZONTAL)
+
+
 
 		self.st_lang = wx.StaticText(self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["choose_language"][LANG], wx.DefaultPosition, wx.DefaultSize, 0)
 		self.st_lang.Wrap(-1)
@@ -374,10 +381,12 @@ class frame_main ( wx.Frame ):
 
 		boxsizer_lang_box = wx.BoxSizer(wx.HORIZONTAL)
 
+
+
 		ch_langChoices = [u"Deutsch", u"English"]
 		self.ch_lang = wx.Choice(self.m_scrolledWindow1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, ch_langChoices, 0)
 
-		self.ch_lang.SetSelection(1 if cf.read()[1] == "en-US" else 0)
+		self.ch_lang.SetSelection(1 if LANG == "en-US" else 0)
 		self.ch_lang.SetFont(
 			wx.Font(36, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial"))
 		self.ch_lang.SetBackgroundColour(wx.Colour(24, 24, 24))
@@ -385,10 +394,43 @@ class frame_main ( wx.Frame ):
 		boxsizer_lang_box.Add(self.ch_lang, 0, wx.ALL | wx.TOP, 5)
 
 		boxsizer_settings.Add(boxsizer_lang_box, 1, wx.ALIGN_CENTER, 5)
+
+
+
+
+		boxsizer_nsfw = wx.BoxSizer(wx.VERTICAL)
+
+		boxsizer_nsfw_text = wx.BoxSizer(wx.HORIZONTAL)
+
+		self.st_nsfw = wx.StaticText(self.m_scrolledWindow1, wx.ID_ANY, u""+LANGF["nsfw"][LANG], wx.DefaultPosition, wx.DefaultSize, 0)
+		self.st_nsfw.Wrap(-1)
+
+		self.st_nsfw.SetFont(
+			wx.Font(36, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial"))
+		self.st_nsfw.SetForegroundColour(wx.Colour(255, 255, 255))
+		self.st_nsfw.SetBackgroundColour(wx.Colour(24, 24, 24))
+
+		boxsizer_nsfw_text.Add(self.st_nsfw, 0, wx.ALL, 5)
+
+		boxsizer_settings.Add(boxsizer_nsfw_text, 0, wx.ALIGN_CENTER, 5)
+
+		ch_nsfw_c = [u""+LANGF["disabled"][LANG], u""+LANGF["enabled"][LANG]]
+		self.ch_nsfw = wx.Choice(self.m_scrolledWindow1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, ch_nsfw_c, 0)
+		self.ch_nsfw.SetSelection(1 if NSFW == "true" else 0)
+		self.ch_nsfw.SetFont(wx.Font(36, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial"))
+		self.ch_nsfw.SetBackgroundColour(wx.Colour(24, 24, 24))
+
+		boxsizer_nsfw.Add(self.ch_nsfw, 0, wx.ALL, 5)
+
+		boxsizer_settings.Add(boxsizer_nsfw, 0, wx.ALIGN_CENTER, 5)
+
+		self.ch_nsfw.Bind(wx.EVT_CHOICE, self.on_nsfw)
+
 		self.ch_lang.Bind(wx.EVT_CHOICE, self.on_lang)
 
 		self.m_scrolledWindow1.SetSizer(boxsizer_settings)
 		self.m_scrolledWindow1.Layout()
+		self.Layout()
 
 	def on_lang(self, event):
 		global LANG
@@ -397,12 +439,22 @@ class frame_main ( wx.Frame ):
 			sel = "en-US"
 		else:
 			sel = "de-DE"
+		print(sel)
 		cf.change(language=sel)
-		API.lang_setup()
+		API.setup()
 		LANG = sel
 		self.Hide()
 		self.child = self.__init__(self)
 
+
+	def on_nsfw(self, event):
+		global NSFW
+		print("here")
+		sel = "false" if int(self.ch_nsfw.GetCurrentSelection()) == 0 else "true" # 0 = OFF | 1 = ON
+		print(sel)
+		print(cf.change(nsfw=sel))
+		API.setup()
+		NSFW = sel
 
 
 	def on_movie( self, event):

@@ -6,8 +6,9 @@ import config as cf
 
 KEY = "e93c3350ce19973913e4baf37a49a213"
 try:
-    lang = cf.setup()[1]
+    lang, nsfw = cf.setup()[1], cf.setup()[2]
 except:
+    nsfw = "false"
     lang = "en-US"
 
 
@@ -35,7 +36,7 @@ def search_by_name(term: str, title=False, poster=False, date=False, rating=Fals
      f"multi?api_key={KEY}&" \
      f"language={lang}" \
      f"&page={page}" \
-     f"&include_adult=true" \
+     f"&include_adult={nsfw}" \
      f"&query={term}"
     response = requests.get(query)
     titles = {}
@@ -149,7 +150,7 @@ def get_trending(time_span: str="week", title=False, poster=False, date=False, r
         overview = True
     titles = {}
     for page in range(1, limit):
-        query = f"https://api.themoviedb.org/3/trending/all/{time_span}?api_key={KEY}&page={page}&language={lang}"
+        query = f"https://api.themoviedb.org/3/trending/all/{time_span}?api_key={KEY}&page={page}&language={lang}&include_adult={nsfw}"
         response = s.get(url=query)
         for x in response.json()["results"]:
             try:
@@ -176,6 +177,7 @@ def compare_genres_helper(id_, fav_genres, offset):
         return id_
     return None
 
+
 def compare_genres(movie_list: list, offset: int = 0):
     """
     compare algorith to find suitable movie
@@ -190,13 +192,15 @@ def compare_genres(movie_list: list, offset: int = 0):
     return choice(movies) if movies and offset <= 2 else compare_genres(movie_list, offset + 1)
 
 
-def lang_setup():
+def setup():
     """
     sets up the langauge used
     :return: None
     """
     global lang
+    global nsfw
     lang = cf.setup()[1]
+    nsfw = cf.setup()[2]
 
 
 

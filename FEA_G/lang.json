@@ -38,5 +38,17 @@
   "empty": {
     "en-US": "Pretty empty in here",
     "de-DE": "Ziemlich leer Hier"
+  },
+  "nsfw": {
+    "en-US": "Adult Content",
+    "de-DE": "Erwachsenen Inhalte"
+  },
+  "enabled": {
+    "en-US": "Enabled",
+    "de-DE": "An"
+  },
+  "disabled": {
+    "en-US": "Disabled",
+    "de-DE": "Aus"
   }
 }
